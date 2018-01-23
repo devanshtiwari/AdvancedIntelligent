@@ -7,6 +7,15 @@ import java.util.Random;
 public class Agent {
     char selectedAction;
     int[][] payoff = new int[2][2];
+
+    public double getQc() {
+        return Qc;
+    }
+
+    public double getQd() {
+        return Qd;
+    }
+
     double Qc = 1, Qd = 1;
     int check=0;
 

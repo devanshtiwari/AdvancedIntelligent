@@ -1,6 +1,9 @@
 import javafx.scene.transform.MatrixType;
 
+import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.Random;
 
 /**
@@ -8,7 +11,7 @@ import java.util.Random;
  */
 public class Driver {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         ArrayList<PayOff> payOffs = new ArrayList<>();
         //For all the PayOff Matrices given
@@ -35,6 +38,7 @@ public class Driver {
 //
 //        ag1.reviseQ(ag2.selectedAcation);
 //        ag2.reviseQ(ag1.selectedAcation);
+        String ag1Choice, ag2Chocie;
         for (int i=0;i<payOffs.size();i++) {
             Agent ag1 = new Agent();
             Agent ag2 =new Agent();
@@ -43,7 +47,8 @@ public class Driver {
             ag1.setPayoff(payOffs.get(i).player1);
             ag2.setPayoff(payOffs.get(i).player2);
             int iter = 0;
-            while (iter != 100000) {
+            DataWriter dataWriter = new DataWriter("Problem"+(i+1)+".csv");
+            while (iter != 15000) {
                 ag1.decideNextAction();
                 ag2.decideNextAction();
 //                System.out.println("Action: " + ag1.selectedAction + "," + ag2.selectedAction);
@@ -51,13 +56,22 @@ public class Driver {
                 ag1.reviseQ(ag2.selectedAction);
 //                System.out.print("Agent 2: ");
                 ag2.reviseQ(ag1.selectedAction);
+                dataWriter.append(Integer.toString((iter+1)));
+                dataWriter.append(Double.toString(ag1.getQc()));
+                dataWriter.append(Double.toString(ag1.getQd()));
+                dataWriter.append(Double.toString(ag2.getQc()));
+                dataWriter.endOfLine(Double.toString(ag2.getQd()));
                 iter++;
             }
+            dataWriter.close();
             ag1.printcheck();
             ag2.printcheck();
             System.out.println("Game: " + (i + 1));
             System.out.println("Agent 1 Qc and Qd " + ag1.Qc + " " + ag1.Qd);
             System.out.println("Agent 2 Qc and Qd " + ag2.Qc + " " + ag2.Qd);
+            ag1Choice = (ag1.Qc >= ag1.Qd)?"c":"d";
+            ag2Chocie = (ag2.Qc >= ag2.Qd)?"c":"d";
+            System.out.println("Strategy: (" + ag1Choice + "," + ag2Chocie + ")");
         }
 
     }
