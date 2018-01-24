@@ -7,12 +7,15 @@ import java.io.IOException;
  */
 public class DataWriter {
     BufferedWriter writer ;
-    DataWriter(String fileName) throws IOException {
+    DataWriter(String fileName, String header) throws IOException {
         writer = new BufferedWriter(new FileWriter(fileName));
-        writer.write("Iteration,Qc, Qd, Qc, Qd\n");
+        writer.write(header);
     }
     void append(String data) throws IOException {
         writer.write(data + ",");
+    }
+    void append(String data, String delim) throws IOException {
+        writer.write(data + delim);
     }
     void endOfLine(String data) throws IOException {
         writer.write(data + "\n");
