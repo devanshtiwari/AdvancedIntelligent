@@ -51,6 +51,7 @@ public class Driver {
         }
         //For 20-20 players of each agent
 
+        //For all the PayOff Matrices given
         for(int k = 0; k< payOffs.size();k++) {
             Agent[] ag1 = new Agent[20];
             Agent[] ag2 = new Agent[20];
@@ -59,10 +60,12 @@ public class Driver {
                 ag2[i] = new Agent();
             }
             List<String> strategyList = new ArrayList<String>();
+            //Each of 20 agents plays with other 20 agents, in total 400 games
             for (int i = 0; i < 20; i++) {
                 ag1[i].setPayoff(payOffs.get(k).player1);
                 for (int j = 0; j < 20; j++) {
                     ag2[j].setPayoff(payOffs.get(k).player2);
+                    //Game is played with 10000 iterations
                     int iter = 0;
                     while (iter != 10000) {
                         ag1[i].decideNextAction();

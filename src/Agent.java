@@ -48,14 +48,13 @@ public class Agent {
             Qd = alpha * getUtility(x) + (1-alpha)*Qd;
             //Qc += (epsilon_greedy) * (alpha * getUtility(x) + (1-alpha)*Qc);
 //            System.out.println("Selected x and selectionAction: " + x +"," +selectedAction+"Utility: " + getUtility(x));
-
         }
     }
     void printcheck(){
         System.out.println("check " + check);
     }
     void decideNextAction(){
-        double temp = new Random().nextFloat();
+        double temp = new Random().nextFloat(); //Uniform Distribution b/w 0 to 1. So based on epsilon action gets selected [Working and Verified]
         if(Qc >= Qd) {
             if(temp < epsilon_greedy) {
                 selectedAction = 'd';
